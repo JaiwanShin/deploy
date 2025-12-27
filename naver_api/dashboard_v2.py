@@ -63,7 +63,7 @@ st.markdown("""
         border-color: #4b5563;
     }
     [data-testid="stMetricLabel"] {
-        color: #9ca3af !important;
+        color: #ffffff !important;
         font-size: 0.9rem;
     }
     [data-testid="stMetricValue"] {
@@ -101,7 +101,7 @@ st.markdown("""
         white-space: pre-wrap;
         background-color: transparent;
         border-radius: 4px;
-        color: #9ca3af;
+        color: #ffffff;
         font-weight: 600;
     }
     .stTabs [aria-selected="true"] {
@@ -130,6 +130,42 @@ st.markdown("""
         background-color: #1a1c24;
         border: 1px solid #3b82f6;
         color: white;
+    }
+
+    /* 10. DataFrame/테이블 다크 테마 스타일 */
+    [data-testid="stDataFrame"] {
+        background-color: #1a1c24 !important;
+    }
+    [data-testid="stDataFrame"] > div {
+        background-color: #1a1c24 !important;
+    }
+    /* 테이블 헤더 */
+    [data-testid="stDataFrame"] th {
+        background-color: #262730 !important;
+        color: #ffffff !important;
+        border-color: #363945 !important;
+    }
+    /* 테이블 셀 */
+    [data-testid="stDataFrame"] td {
+        background-color: #1a1c24 !important;
+        color: #e5e7eb !important;
+        border-color: #2d2f3b !important;
+    }
+    /* 테이블 행 호버 효과 */
+    [data-testid="stDataFrame"] tr:hover td {
+        background-color: #262730 !important;
+    }
+    /* 테이블 전체 테두리 */
+    [data-testid="stDataFrame"] table {
+        border-color: #2d2f3b !important;
+    }
+    /* Glide Grid 스타일 (Streamlit 기본 테이블) */
+    .glideDataEditor, .dvn-scroller {
+        background-color: #1a1c24 !important;
+    }
+    .gdg-header, .gdg-cell {
+        background-color: #1a1c24 !important;
+        color: #e5e7eb !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1207,7 +1243,13 @@ with tab4:
                 color="brand_query",
                 template="plotly_dark"
             )
-            fig.update_layout(height=500, showlegend=False)
+            fig.update_layout(
+                height=500, 
+                showlegend=False,
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color='#e5e7eb')
+            )
             st.plotly_chart(fig, use_container_width=True)
             
             # 평균가 비교 바 차트
@@ -1221,7 +1263,12 @@ with tab4:
                 color_continuous_scale="RdYlGn_r",
                 template="plotly_dark"
             )
-            fig.update_layout(height=400)
+            fig.update_layout(
+                height=400,
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color='#e5e7eb')
+            )
             st.plotly_chart(fig, use_container_width=True)
 
             # 📥 결과 내보내기
@@ -1283,13 +1330,14 @@ with tab5:
             if not gender_df.empty:
                 fig = px.pie(gender_df, values="avg_ratio", names="segment", title=f"'{t_kw}' 성별 검색 비율", 
                            hole=0.6, template="plotly_dark", color_discrete_sequence=["#6366f1", "#f093fb"])
+                fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font=dict(color='#e5e7eb'))
                 st.plotly_chart(fig, use_container_width=True)
         with col2:
             age_df = r_df[r_df["category"] == "연령"]
             if not age_df.empty:
                 fig = px.bar(age_df, x="segment", y="avg_ratio", title=f"'{t_kw}' 연령별 검색량", 
                            template="plotly_dark", color="avg_ratio", color_continuous_scale="Viridis")
-                fig.update_layout(showlegend=False)
+                fig.update_layout(showlegend=False, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font=dict(color='#e5e7eb'))
                 st.plotly_chart(fig, use_container_width=True)
         
         # 📥 결과 내보내기
